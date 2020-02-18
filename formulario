@@ -1,0 +1,47 @@
+$Form=New-Object System.Windows.Forms.Form
+$Form.Text="Mi Formulario"
+$Form.Size=New-Object System.Drawing.Size(400,400)
+
+$Label=New-Object System.Windows.Forms.Label
+$Label.Text="Pulsa aqui para que te lleve al formulario"
+$Label.AutoSize=$True
+$Label.Location=New-Object System.Drawing.Size(10,160)
+
+
+$button1=[Button]@{
+Text='Salir'
+}
+$button1=New-Object System.Windows.Forms.Button
+$button1.Size=New-Object System.Drawing.Size(75,23)
+$button1.Text="SALIR"
+$form.Controls.Add($button1)
+$button1.Add_Click({$Form.Close()})
+$button1.Location=New-Object System.Drawing.Size(220,200)
+
+$Button=New-Object System.Windows.Forms.Button
+$Button.Size=New-Object System.Drawing.Size(75,23)
+$Button.Text="Botón"
+$Button.Location=New-Object System.Drawing.Size(0,200)
+
+$Button.add_Click{
+$Form2=New-Object System.Windows.Forms.Form
+$Form2.Text="Mi Formulario"
+$Form2.Size=New-Object System.Drawing.Size(400,400)
+
+$Label2=New-Object System.Windows.Forms.Label
+$Label2.Text="Pulsa aqui para que te lleve al formulario"
+$Label2.AutoSize=$True
+$Label2.Location=New-Object System.Drawing.Size(150,160)
+
+$Button2=New-Object System.Windows.Forms.Button
+$Button2.Size=New-Object System.Drawing.Size(75,23)
+$Button2.Text="BOTON"
+$Button2.Location=New-Object System.Drawing.Size(200,200)
+$Form2.Controls.Add($Label)
+$Form2.Controls.Add($Button)
+$Form2.ShowDialog()
+}
+$Form.Controls.Add($Label)
+$Form.Controls.Add($Button)
+$Form.Controls.Add($button1)
+$Form.ShowDialog()
