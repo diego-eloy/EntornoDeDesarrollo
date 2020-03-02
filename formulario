@@ -1,47 +1,107 @@
-$Form=New-Object System.Windows.Forms.Form
-$Form.Text="Mi Formulario"
-$Form.Size=New-Object System.Drawing.Size(400,400)
+$CodigoC = @"
+
+using System;
+using System.Diagnostics;
+using System.Runtime.InteropServices;
+ 
+public static class User32
+{
+    [DllImport("user32.dll", CharSet=CharSet.Auto)]
+        public static extern bool MessageBox(
+            IntPtr hWnd,     /// Parent window handle 
+            String text,     /// Text message to display
+            String caption,  /// Window caption
+            int options);    /// MessageBox type
+}
+
+"@
+
+Add-Type -TypeDefinition $CodigoC -ErrorAction SilentlyContinue
+
+Add-Type -AssemblyName System.Windows.Forms
+[System.Windows.Forms.Application]::EnableVisualStyles()
+
+$Formulario                      = New-Object system.Windows.Forms.Form
+$Formulario.ClientSize           = '400,400'
+$Formulario.text                 = "Formulario"
+$Formulario.BackColor            = "#9b9b9b"
+$Formulario.TopMost              = $false
+$Formulario.StartPosition        = "CenterScreen"
+
 
 $Label=New-Object System.Windows.Forms.Label
-$Label.Text="Pulsa aqui para que te lleve al formulario"
+$Label.Text="Dime el usuario y la contraseña"
 $Label.AutoSize=$True
-$Label.Location=New-Object System.Drawing.Size(10,160)
+$Label.Location=New-Object System.Drawing.Size(50,20)
 
+#El boton 1 sirve para abrir otro formulario
+$Button1                         = New-Object system.Windows.Forms.Button
+$Button1.BackColor               = "#ffffff"
+$Button1.text                    = "Siguiente"
+$Button1.width                   = 100
+$Button1.height                  = 30
+$Button1.location                = New-Object System.Drawing.Point(40,192)
+$Button1.Font                    = 'Microsoft Sans Serif,10'
 
-$button1=[Button]@{
-Text='Salir'
-}
-$button1=New-Object System.Windows.Forms.Button
-$button1.Size=New-Object System.Drawing.Size(75,23)
-$button1.Text="SALIR"
-$form.Controls.Add($button1)
-$button1.Add_Click({$Form.Close()})
-$button1.Location=New-Object System.Drawing.Size(220,200)
+    #Esta es la funcion del boton 1
+    $Button1.add_Click{
+        if(($TextBox1 = 'diego') , ($TextBox2 = '1234')){
 
-$Button=New-Object System.Windows.Forms.Button
-$Button.Size=New-Object System.Drawing.Size(75,23)
-$Button.Text="Botón"
-$Button.Location=New-Object System.Drawing.Size(0,200)
+            $Button1.add_Click{
+            $Form2=New-Object System.Windows.Forms.Form
+            $Form2.Text=""
+            $Form2.Size=New-Object System.Drawing.Size(400,400)
+            $Form2.StartPosition        = "CenterScreen"
+        
+            $Button3                         = New-Object system.Windows.Forms.Button
+            $Button3.BackColor               = "#ffffff"
+            $Button3.text                    = "PULSA"
+            $Button3.width                   = 100
+            $Button3.height                  = 30
+            $Button3.location                = New-Object System.Drawing.Point(40,192)
+            $Button3.Font                    = 'Microsoft Sans Serif,10'
 
-$Button.add_Click{
-$Form2=New-Object System.Windows.Forms.Form
-$Form2.Text="Mi Formulario"
-$Form2.Size=New-Object System.Drawing.Size(400,400)
+                 $Button3.add_Click{
+                    $PictureBox1                     = New-Object system.Windows.Forms.PictureBox
+                    $PictureBox1.width               = 30
+                    $PictureBox1.height              = 30
+                    $PictureBox1.location            = New-Object System.Drawing.Point(34,69)
+                    $PictureBox1.imageLocation       = C:\Users\Dieguito\Documents\PowerShellISE\hola.png
+                    $PictureBox1.SizeMode            = [System.Windows.Forms.PictureBoxSizeMode]::zoom
+                 }
+            $Form2.controls.AddRange(($Button3))
+            $Form2.ShowDialog()
+            }
+        }
+        
+    }
 
-$Label2=New-Object System.Windows.Forms.Label
-$Label2.Text="Pulsa aqui para que te lleve al formulario"
-$Label2.AutoSize=$True
-$Label2.Location=New-Object System.Drawing.Size(150,160)
+#Esos dos textbox son para escribir los datos que pide al usuario
+$TextBox1                        = New-Object system.Windows.Forms.TextBox
+$TextBox1.multiline              = $false
+$TextBox1.width                  = 100
+$TextBox1.height                 = 20
+$TextBox1.location               = New-Object System.Drawing.Point(40,65)
+$TextBox1.Font                   = 'Microsoft Sans Serif,10'
 
-$Button2=New-Object System.Windows.Forms.Button
-$Button2.Size=New-Object System.Drawing.Size(75,23)
-$Button2.Text="BOTON"
-$Button2.Location=New-Object System.Drawing.Size(200,200)
-$Form2.Controls.Add($Label)
-$Form2.Controls.Add($Button)
-$Form2.ShowDialog()
-}
-$Form.Controls.Add($Label)
-$Form.Controls.Add($Button)
-$Form.Controls.Add($button1)
-$Form.ShowDialog()
+$TextBox2                        = New-Object system.Windows.Forms.TextBox
+$TextBox2.multiline              = $false
+$TextBox2.width                  = 100
+$TextBox2.height                 = 20
+$TextBox2.location               = New-Object System.Drawing.Point(40,100)
+$TextBox2.Font                   = 'Microsoft Sans Serif,10'
+
+#Este boton cierra el formulario
+$Button2                         = New-Object system.Windows.Forms.Button
+$Button2.BackColor               = "#ffffff"
+$Button2.text                    = "Cerrar"
+$Button2.width                   = 100
+$Button2.height                  = 30
+$Button2.location                = New-Object System.Drawing.Point(192,192)
+$Button2.Font                    = 'Microsoft Sans Serif,10'
+$Button2.Add_Click({$Formulario.Close()})
+
+$Formulario.controls.AddRange(@($Label,$Button1,$Button2,$TextBox1,$TextBox2))
+$Formulario.Controls.Add($Label)
+$Formulario.ShowDialog()
+
