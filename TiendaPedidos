@@ -1,0 +1,125 @@
+
+import java.util.Enumeration;
+import java.util.Hashtable;
+import java.util.Scanner;
+
+public class Entrada {
+
+    static int opcion;
+    static Scanner teclado = new Scanner(System.in);
+
+    static Hashtable<Integer, Object[]> listaPedidos = new Hashtable();
+
+    static String nombre;
+    static int coste;
+    static int clave;
+    static String ubi;
+    static int acumuladorCostes = 0;
+
+    public static void main(String[] args) {
+
+        do {
+            System.out.println("1-Agregar Pedido");
+            System.out.println("2-Listar Pedido");
+            System.out.println("3-Buscar Pedido");
+            System.out.println("5-Eliminar Pedido");
+            System.out.println("6-Vaciar Cesta de Compra");
+            System.out.println("7-Salir");
+            System.out.println("------------------");
+            System.out.println("Dime la Opcion a elegir");
+            opcion = teclado.nextInt();
+
+            switch (opcion) {
+                case 1:
+                    agregarPedido();
+                    break;
+
+                case 2:
+                    listarPedidos();
+                    break;
+
+                case 3:
+                    System.out.println("Dime la clave del pedido a buscar: ");
+                    String claveBuscar = teclado.next();
+                    buscarPedido(claveBuscar);
+                    break;
+
+                case 5:
+                    System.out.println("Dime la clave del pedido a eliminar: ");
+                    String pedidoEliminar= teclado.next();
+                    if(listaPedidos.containsKey(pedidoEliminar)){
+                        eliminarCoches(pedidoEliminar);
+                    }else{
+                        System.out.println("pedido no encontrado, vuelva a intentarlo");
+                    }
+                    break;
+
+                case 6:
+                    vaciarCarrito();
+                    break;
+
+                case 7:
+                    break;
+
+                default:
+                    if (opcion < 1) {
+                        System.out.println("");
+                        System.out.println("Introduce opcion valida");
+
+                    }
+            }
+        }
+        while (opcion != 7);
+
+    }
+
+    public static void agregarPedido() {
+        System.out.println("Dime la clave del pedido: ");
+        clave = teclado.nextInt();
+        System.out.println("Dime el nombre del pedido: ");
+        nombre = teclado.next();
+        System.out.println("Dime el coste del elemento pedido: ");
+        coste = teclado.nextInt();
+        System.out.println("Dime la ubicacion del elemento: ");
+        ubi = teclado.next();
+
+        if (listaPedidos.containsKey(clave)){
+            System.out.println("La clave del pedido ya esta registrada");
+        }else{
+            Object[] pedido = {clave, nombre, coste,ubi};
+            listaPedidos.put(clave, pedido);
+        }
+    }
+
+    public static void listarPedidos() {
+        Enumeration<Object[]> listaModificada = listaPedidos.elements();
+        while (listaModificada.hasMoreElements()) {
+            Object[] recuperado = listaModificada.nextElement();
+            for (Object item : recuperado) {
+                System.out.print(item+" ");
+                System.out.println("");
+            }
+
+        }
+    }
+
+    public static void buscarPedido(String clave) {
+        if (listaPedidos.containsKey(clave)) {
+            Object[] pedidoEncontrado = listaPedidos.get(clave);
+            for (Object item : pedidoEncontrado) {
+                System.out.println("  " + item);
+            }
+        } else {
+            System.out.println("Clave no encontrada");
+        }
+    }
+
+    public static void eliminarCoches(String matricula){
+        listaPedidos.remove(matricula);
+    }
+    public static void vaciarCarrito(){
+        listaPedidos.clear();
+    }
+
+
+}
