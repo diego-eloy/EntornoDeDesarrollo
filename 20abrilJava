@@ -1,0 +1,47 @@
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.util.Scanner;
+
+public class Entrada {
+
+    public static void main(String[] args) {
+        Scanner teclado = new Scanner(System.in);
+        int opcion;
+        String pal1;
+        String pal2;
+        String pal3;
+
+
+        do {
+            System.out.println("*ELIGE*");
+            System.out.println("1-Visualizacion de lo mas buscado en GOOGLE");
+            System.out.println("2-Salir");
+            opcion = teclado.nextInt();
+
+            switch (opcion) {
+                case 1:
+                    System.out.println("que es lo que quieres comparar");
+                    pal1 = teclado.next();
+                    pal2 = teclado.next();
+
+                    URL url = null;
+                    try {
+                        url = new URL("https://trends.google.es/trends/explore?geo=ES&q=" + pal1 + "," + pal2);
+                        try {
+                            Desktop.getDesktop().browse(url.toURI());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        } catch (URISyntaxException e) {
+                            e.printStackTrace();
+                        }
+                    } catch (MalformedURLException e1) {
+                        e1.printStackTrace();
+                    }
+                    break;
+            }
+
+        } while (opcion != 2);
+    }
+
+
+}
