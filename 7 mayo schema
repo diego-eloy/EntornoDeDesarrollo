@@ -1,0 +1,10 @@
+package Traductor;
+
+public interface SchemaDB {
+
+    String DB_NAME = "dbtraductor";
+    String TB_NAME = "tbpalabras";
+    String TB_USUARIO = "traductor";
+    String COL_ESPANOL = "palabra en español";
+    String COL_INGLES = "palabra en ingles";
+}
