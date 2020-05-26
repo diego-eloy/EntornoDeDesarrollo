@@ -1,0 +1,21 @@
+package Traductor;
+
+        import java.util.Scanner;
+
+public class Entrada {
+    static Scanner teclado = new Scanner(System.in);
+    public static void main(String[] args) {
+
+        Conexion conexion = new Conexion();
+        conexion.getConnection();
+
+        System.out.println("Dime una palabra");
+        String palabra = teclado.next();
+
+        System.out.println("Resultado:");
+        conexion.consultarDatos(palabra.toLowerCase());
+
+
+
+    }
+}
