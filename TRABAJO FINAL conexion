@@ -1,0 +1,60 @@
+package Traductor;
+
+import java.sql.*;
+
+public class Conexion {
+
+    private Connection connection;
+
+    public Conexion() {
+        getConnection();
+    }
+
+    public void getConnection() {
+        try {
+            Class.forName("org.mariadb.jdbc.Driver");
+            String host = "192.168.56.1";
+            String dbname = "dbtraductor";
+            String url = "jdbc:mariadb://" + host + "/" + dbname;
+            String username = "traductor";
+            String password = "toor";
+            try {
+                connection = DriverManager.getConnection(url, username, password);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } catch (ClassNotFoundException e) {
+            System.out.println("No se ha podido cargar el driver");
+            e.printStackTrace();
+        }
+    }
+
+    public void consultarDatos(String palabra) {
+        String palabraE = null;
+        try {
+            if (!connection.isClosed()) {
+                String query_modelo = "SELECT * FROM %s";
+                Statement statement = connection.createStatement();
+                ResultSet resultSet = statement.executeQuery(String.format(query_modelo, SchemaDB.TB_NAME));
+
+                if (resultSet != null){
+                    if (resultSet.next()) {
+                        if (palabra.equals(palabraE)){
+                            palabraE = resultSet.getString(SchemaDB.COL_ESPANOL);
+                            String palabraI= resultSet.getString(SchemaDB.COL_INGLES);
+                            System.out.printf("la palabra en español es %s y en ingles %s",palabraE,palabraI);
+                        }
+                    }
+                }
+            } else {
+                System.out.println("No se ha podido leer");
+            }
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+}
